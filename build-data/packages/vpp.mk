@@ -35,8 +35,6 @@ ifneq ($(VPP_EXTRA_CMAKE_ARGS),)
 vpp_cmake_args += $(VPP_EXTRA_CMAKE_ARGS)
 endif
 
-#vpp_configure_depend += external-install
-
 prep-dpdk-lib:
 ifneq ($(DPDK_PATH),)
 	@echo "@@@@ Creating libdpdk.a in $(DPDK_PATH)/lib"
@@ -47,7 +45,11 @@ else
 	@echo -e "\033[31m@@@@DPDK Install Path not defined, so building stop! Please set DPDK_PATH enviroment. \033[0m" && exit 1
 endif
 
+ifneq ($(DPDK_PATH),)
 vpp_configure_depend += prep-dpdk-lib
+else
+vpp_configure_depend += external-install
+endif
 vpp_configure = \
   cd $(PACKAGE_BUILD_DIR) && \
   $(CMAKE) -G Ninja $(vpp_cmake_args) $(call find_source_fn,$(PACKAGE_SOURCE))
