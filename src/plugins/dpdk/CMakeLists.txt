@@ -14,6 +14,10 @@
 ##############################################################################
 # Check if we want to use the system DPDK
 ##############################################################################
+if(IS_DIRECTORY $ENV{DPDK_PATH})
+set(CMAKE_PREFIX_PATH $ENV{DPDK_PATH})
+endif()
+
 option(VPP_USE_SYSTEM_DPDK "Use the system installation of DPDK." OFF)
 if(VPP_USE_SYSTEM_DPDK)
     find_package(PkgConfig REQUIRED)
